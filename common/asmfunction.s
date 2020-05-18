@@ -4,10 +4,11 @@
 .global power
 .type power, %function
 power:
-    # Remember the ABI: we must not destroy the values in r4 to r12.
+    # Remember the ABI: we must not destroy the values in r4 to r11.
+    # r12 is the scratch register that does not need to be preserved.
     # Arguments are placed in r0 and r1, the return value should go in r0.
     # To be certain, we just push all of them onto the stack.
-    push {r4-r12}
+    push {r4-r11}
 
     mov r2, r0
     mov r0, #1
@@ -20,5 +21,5 @@ power:
     done:
 
     # Finally, we restore the callee-saved register values and branch back.
-    pop {r4-r12}
+    pop {r4-r11}
     bx lr
